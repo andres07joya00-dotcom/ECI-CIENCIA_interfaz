@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101a33">
+
+  <title>Copa Ingenium | Panel de control</title>
+
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/app.js" defer></script>
+</head>
+
+<body>
+  <div class="app-shell">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="sidebar">
+      <a class="brand" href="#" data-page="inicio">
+        <div class="brand-icon">CI</div>
+        <div>
+          <h2>COPA INGENIUM</h2>
+          <span>SEMILLERO STEM · ECI</span>
+        </div>
+      </a>
+
+      <p class="menu-label">PLATAFORMA</p>
+
+      <nav class="navigation" aria-label="Navegación principal">
+        <button class="nav-item active" data-page="inicio">
+          <span class="nav-icon">⌂</span>
+          Panel principal
+        </button>
+
+        <button class="nav-item" data-page="preguntas">
+          <span class="nav-icon">▤</span>
+          Banco de preguntas
+        </button>
+
+        <button class="nav-item" data-page="enfrentamientos">
+          <span class="nav-icon">⚑</span>
+          Enfrentamientos
+        </button>
+
+        <button class="nav-item" data-page="concurso">
+          <span class="nav-icon">◷</span>
+          Control del concurso
+        </button>
+
+        <button class="nav-item" data-page="marcador">
+          <span class="nav-icon">▥</span>
+          Marcador
+        </button>
+
+        <button class="nav-item" data-page="configuracion">
+          <span class="nav-icon">⚙</span>
+          Configuración
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        Interfaz disponible
+        <small>Botones ESP32: pendientes</small>
+      </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+
+      <header class="topbar">
+        <div>
+          <span class="eyebrow">COPA INGENIUM · 2026</span>
+          <h1 id="page-title">Panel principal</h1>
+        </div>
+
+        <div class="admin-chip">
+          <span class="avatar">M</span>
+          <span>Moderación</span>
+        </div>
+      </header>
+
+      <!-- PANEL PRINCIPAL -->
+      <section class="page-section" id="page-inicio">
+
+        <div class="welcome">
+          <div class="welcome-content">
+            <span class="eyebrow">CENTRO DE CONTROL</span>
+
+            <h2>
+              Todo listo para organizar
+              <br>
+              el conocimiento.
+            </h2>
+
+            <p>
+              Administra las preguntas, los enfrentamientos y los resultados
+              de la Copa Ingenium desde un solo lugar.
+            </p>
+
+            <button class="primary-button" data-page="preguntas">
+              Explorar banco de preguntas →
+            </button>
+          </div>
+
+          <div class="welcome-symbol" aria-hidden="true">CI<span>.</span></div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Estado del sistema</h2>
+            <p>Resumen general de la plataforma</p>
+          </div>
+
+          <span class="status-pill">En preparación</span>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-icon purple">▤</span>
+            <p>Preguntas cargadas</p>
+            <strong id="question-count">0</strong>
+            <small>Banco pendiente de importar</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon blue">⚑</span>
+            <p>Enfrentamientos</p>
+            <strong id="match-count">0</strong>
+            <small>Sin configurar</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon orange">◷</span>
+            <p>Pregunta activa</p>
+            <strong id="active-question">—</strong>
+            <small>Concurso sin iniciar</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon green">✓</span>
+            <p>Conexión ESP32</p>
+            <strong class="small-value">Pendiente</strong>
+            <small>Se integrará posteriormente</small>
+          </article>
+        </div>
+
+        <div class="bottom-grid">
+          <article class="panel-card">
+            <div class="panel-title">
+              <h2>Accesos rápidos</h2>
+              <span>01</span>
+            </div>
+
+            <p class="muted">
+              Selecciona el módulo que quieres administrar.
+            </p>
+
+            <div class="quick-links">
+              <button class="quick-link" data-page="preguntas">
+                <span class="quick-icon">▤</span>
+                <span class="quick-text">
+                  <strong>Banco de preguntas</strong>
+                  <small>Organizar e importar preguntas</small>
+                </span>
+                <span class="arrow">→</span>
+              </button>
+
+              <button class="quick-link" data-page="enfrentamientos">
+                <span class="quick-icon">⚑</span>
+                <span class="quick-text">
+                  <strong>Enfrentamientos</strong>
+                  <small>Organizar equipos y rondas</small>
+                </span>
+                <span class="arrow">→</span>
+              </button>
+
+              <button class="quick-link" data-page="marcador">
+                <span class="quick-icon">▥</span>
+                <span class="quick-text">
+                  <strong>Marcador</strong>
+                  <small>Consultar puntuaciones</small>
+                </span>
+                <span class="arrow">→</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="panel-card">
+            <div class="panel-title">
+              <h2>Preparación del proyecto</h2>
+              <span>02</span>
+            </div>
+
+            <p class="muted">Etapas de desarrollo</p>
+
+            <div class="check-row">
+              <span class="check complete">✓</span>
+              <span>Crear interfaz base</span>
+              <small>Actual</small>
+            </div>
+
+            <div class="check-row">
+              <span class="check pending">2</span>
+              <span>Importar Excel</span>
+              <small>Pendiente</small>
+            </div>
+
+            <div class="check-row">
+              <span class="check pending">3</span>
+              <span>Crear servidor</span>
+              <small>Pendiente</small>
+            </div>
+
+            <div class="check-row">
+              <span class="check pending">4</span>
+              <span>Conectar ESP32</span>
+              <small>Fase posterior</small>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- OTRAS SECCIONES -->
+      <section class="page-section hidden" id="page-preguntas">
+        <div class="module-card">
+          <span class="module-symbol">▤</span>
+          <h2>Banco de preguntas</h2>
+          <p>
+            Aquí importaremos el Excel, validaremos las respuestas
+            y organizaremos las preguntas por categoría y dificultad.
+          </p>
+          <span class="coming-soon">Módulo en desarrollo</span>
+        </div>
+      </section>
+
+      <section class="page-section hidden" id="page-enfrentamientos">
+        <div class="module-card">
+          <span class="module-symbol">⚑</span>
+          <h2>Enfrentamientos</h2>
+          <p>
+            Aquí registraremos los equipos, las rondas y la asignación
+            de preguntas a cada enfrentamiento.
+          </p>
+          <span class="coming-soon">Módulo en desarrollo</span>
+        </div>
+      </section>
+
+      <section class="page-section hidden" id="page-concurso">
+        <div class="module-card">
+          <span class="module-symbol">◷</span>
+          <h2>Control del concurso</h2>
+          <p>
+            Aquí controlaremos las preguntas, los tiempos de lectura,
+            las respuestas, la evaluación y los rebotes.
+          </p>
+          <span class="coming-soon">Módulo en desarrollo</span>
+        </div>
+      </section>
+
+      <section class="page-section hidden" id="page-marcador">
+        <div class="module-card">
+          <span class="module-symbol">▥</span>
+          <h2>Marcador</h2>
+          <p>
+            Aquí mostraremos los puntos de cada equipo, los resultados
+            de los enfrentamientos y la clasificación.
+          </p>
+          <span class="coming-soon">Módulo en desarrollo</span>
+        </div>
+      </section>
+
+      <section class="page-section hidden" id="page-configuracion">
+        <div class="module-card">
+          <span class="module-symbol">⚙</span>
+          <h2>Configuración</h2>
+          <p>
+            Aquí configuraremos los parámetros generales del concurso
+            y, posteriormente, la comunicación con los dispositivos.
+          </p>
+          <span class="coming-soon">Módulo en desarrollo</span>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        COPA INGENIUM · SEMILLERO STEM · ESCUELA COLOMBIANA DE INGENIERÍA
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
