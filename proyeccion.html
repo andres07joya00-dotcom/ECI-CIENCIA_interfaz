@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a33">
+  <title>Copa Ingenium | Concurso en vivo</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/proyeccion.js" defer></script>
+</head>
+<body class="projection-body">
+  <main class="projection-shell">
+    <header class="projection-header">
+      <div class="projection-brand">
+        <div class="brand-icon">CI</div>
+        <div>
+          <h1>COPA INGENIUM</h1>
+          <p>SEMILLERO STEM · ESCUELA COLOMBIANA DE INGENIERÍA</p>
+        </div>
+      </div>
+      <div class="projection-live">
+        <span class="status-dot"></span>
+        <span id="proy-estado">ESPERANDO AL MODERADOR</span>
+      </div>
+    </header>
+
+    <section class="projection-main" id="proy-tarjeta">
+      <div class="projection-meta">
+        <span id="proy-area">COPA INGENIUM</span>
+        <span id="proy-tipo">CONCURSO ACADÉMICO</span>
+      </div>
+
+      <div class="projection-heading">
+        <div>
+          <p id="proy-enfrentamiento">PREPARACIÓN DEL CONCURSO</p>
+          <h2 id="proy-pregunta">¡Bienvenidos a Copa Ingenium!</h2>
+        </div>
+        <div class="projection-timer" id="proy-cronometro">--:--</div>
+      </div>
+
+      <div class="projection-options" id="proy-opciones">
+        <article class="projection-option">
+          <span>A</span><p>Esperando la pregunta...</p>
+        </article>
+        <article class="projection-option">
+          <span>B</span><p>Esperando la pregunta...</p>
+        </article>
+        <article class="projection-option">
+          <span>C</span><p>Esperando la pregunta...</p>
+        </article>
+        <article class="projection-option">
+          <span>D</span><p>Esperando la pregunta...</p>
+        </article>
+      </div>
+
+      <footer class="projection-footer">
+        <span id="proy-dificultad">DIFICULTAD: —</span>
+        <span id="proy-puntos">VALOR: —</span>
+        <span id="proy-tiempo">TIEMPO: —</span>
+      </footer>
+    </section>
+
+    <footer class="projection-bottom">
+      <span>CONOCIMIENTO · INGENIERÍA · INNOVACIÓN</span>
+      <span>ECI · 2026</span>
+    </footer>
+  </main>
+</body>
+</html>

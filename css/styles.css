@@ -911,3 +911,523 @@ a:focus-visible {
   margin: 6px 0;
   color: #b91c1c;
 }
+
+
+/* =========================================
+   CONTROL DEL CONCURSO - COPA INGENIUM
+========================================= */
+
+.concurso-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.concurso-heading h1 {
+  margin: 8px 0;
+}
+
+.concurso-heading p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.concurso-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.control-layout {
+  display: grid;
+  grid-template-columns: minmax(245px, 0.75fr) minmax(0, 1.5fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.control-config label {
+  display: block;
+  margin: 16px 0 7px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.control-config input,
+.control-config select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid #dce2ed;
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  font: inherit;
+}
+
+.control-config input:focus,
+.control-config select:focus {
+  outline: 2px solid #b9b0ff;
+  border-color: #7965ed;
+}
+
+.control-config h2,
+.control-preview h2,
+.control-bottom h2 {
+  margin-top: 0;
+}
+
+.control-preview-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.contest-question {
+  --category-color: #7160df;
+  padding: clamp(18px, 3vw, 30px);
+  border: 1px solid #e2e6f0;
+  border-top: 5px solid var(--category-color);
+  border-radius: 15px;
+  background: linear-gradient(145deg, #fff, #f8f9ff);
+}
+
+.contest-question-meta,
+.contest-preview-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.contest-question-meta span {
+  padding: 7px 10px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--category-color) 12%, white);
+  color: var(--category-color);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+#control-nivel-badge {
+  background: #f0edff;
+  color: #6853cb;
+}
+
+#control-enunciado {
+  margin: 25px 0;
+  font-size: clamp(20px, 2.5vw, 29px);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.contest-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.contest-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 66px;
+  padding: 15px;
+  border: 1px solid #e0e5ef;
+  border-radius: 11px;
+  background: white;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.contest-option b {
+  display: grid;
+  place-items: center;
+  flex: 0 0 29px;
+  height: 29px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--category-color) 12%, white);
+  color: var(--category-color);
+}
+
+.contest-option span {
+  padding-top: 4px;
+}
+
+.contest-preview-footer {
+  margin-top: 22px;
+  padding-top: 15px;
+  border-top: 1px solid #e6e9f2;
+  color: #66718a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.control-actions,
+.timer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.control-actions {
+  margin-top: 20px;
+}
+
+.control-actions button,
+.timer-actions button {
+  margin-top: 0;
+}
+
+.action-button {
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 9px;
+  background: #7160df;
+  color: white;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.action-button:hover {
+  background: #5e4bc7;
+}
+
+.timer-panel,
+.control-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.timer-panel h2 {
+  margin: 10px 0 4px;
+  font-size: 38px;
+  font-variant-numeric: tabular-nums;
+}
+
+#control-respuesta {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#control-respuesta.revealed {
+  color: #168454;
+}
+
+.contest-question[data-revealed="true"] .contest-option.correct-option {
+  border-color: #22a06b;
+  background: #e5f8ee;
+  color: #146c43;
+}
+
+.contest-question[data-finished="true"] {
+  border-color: #e9a23b;
+}
+
+@media (max-width: 1000px) {
+  .control-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .concurso-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contest-options {
+    grid-template-columns: 1fr;
+  }
+
+  .timer-panel,
+  .control-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .control-actions button,
+  .timer-actions button {
+    flex: 1 1 auto;
+  }
+}
+
+
+/* =========================================
+   PANTALLA DE PROYECCIÓN
+========================================= */
+
+.projection-body {
+  min-height: 100vh;
+  color: #f8faff;
+  background:
+    radial-gradient(ellipse at top right, #273c71 0, transparent 45%),
+    #0b1224;
+}
+
+.projection-shell {
+  width: min(1500px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 55px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.projection-header,
+.projection-brand,
+.projection-live,
+.projection-meta,
+.projection-heading,
+.projection-footer,
+.projection-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.projection-brand {
+  justify-content: flex-start;
+}
+
+.projection-brand h1 {
+  margin: 0 0 6px;
+  font-size: clamp(17px, 2vw, 25px);
+  letter-spacing: 2px;
+}
+
+.projection-brand p,
+.projection-bottom {
+  margin: 0;
+  color: #a8b4d1;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+}
+
+.projection-live {
+  justify-content: flex-end;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: right;
+}
+
+.projection-main {
+  --projection-color: #7160df;
+  padding: clamp(20px, 4vw, 55px);
+  border: 1px solid #ffffff1b;
+  border-top: 6px solid var(--projection-color);
+  border-radius: 23px;
+  background: linear-gradient(145deg, #182541f5, #111a30f5);
+  box-shadow: 0 24px 80px #00000020;
+}
+
+.projection-meta span {
+  padding: 9px 13px;
+  border-radius: 30px;
+  background: color-mix(in srgb, var(--projection-color) 24%, #15213b);
+  color: #fff;
+  font-size: clamp(10px, 1.2vw, 13px);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.projection-heading {
+  align-items: flex-start;
+  margin: clamp(25px, 5vh, 50px) 0;
+}
+
+.projection-heading > div:first-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.projection-heading > div:first-child > p {
+  color: #a9b8d9;
+  font-size: clamp(10px, 1.2vw, 14px);
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.projection-heading h2 {
+  max-width: 1050px;
+  margin: 12px 0 0;
+  font-size: clamp(25px, 4vw, 52px);
+  line-height: 1.28;
+  overflow-wrap: anywhere;
+}
+
+.projection-timer {
+  flex-shrink: 0;
+  min-width: 125px;
+  padding: 17px 20px;
+  border: 1px solid #ffffff24;
+  border-radius: 16px;
+  background: #0b1429;
+  font-size: clamp(26px, 4vw, 45px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.projection-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.projection-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+  min-height: 95px;
+  padding: clamp(14px, 2vw, 24px);
+  border: 1px solid #ffffff1a;
+  border-radius: 15px;
+  background: #ffffff08;
+}
+
+.projection-option > span {
+  display: grid;
+  place-items: center;
+  flex: 0 0 43px;
+  height: 43px;
+  border-radius: 12px;
+  background: var(--projection-color);
+  color: white;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.projection-option p {
+  margin: 8px 0 0;
+  font-size: clamp(15px, 1.8vw, 23px);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.projection-option.correct-option {
+  border-color: #3cce8a;
+  background: #12633c45;
+}
+
+.projection-option.correct-option > span {
+  background: #21a66a;
+}
+
+.projection-footer {
+  flex-wrap: wrap;
+  margin-top: 32px;
+  padding-top: 21px;
+  border-top: 1px solid #ffffff1b;
+  color: #b5c1dc;
+  font-size: clamp(10px, 1.2vw, 13px);
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.projection-bottom {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 650px) {
+  .projection-header,
+  .projection-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .projection-live {
+    justify-content: flex-start;
+  }
+
+  .projection-timer {
+    min-width: 100px;
+  }
+
+  .projection-options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   PROGRAMACIÓN AUTOMÁTICA - COPA INGENIUM
+========================================= */
+
+.programacion-resumen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.programacion-resumen > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid var(--border-color, #dbe2ea);
+  border-radius: 12px;
+  background: var(--card-bg, #f8fafc);
+}
+
+.programacion-resumen strong {
+  font-size: 1.5rem;
+}
+
+.programacion-criterios {
+  margin: 8px 0 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--card-bg, #f8fafc);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+#control-fase-actual,
+#control-enfrentamiento-actual {
+  display: block;
+  margin: 6px 0 14px;
+}
+
+#control-excel {
+  width: 100%;
+  max-width: 100%;
+  margin: 8px 0 12px;
+}
+
+#control-importar,
+#control-sortear,
+#control-avanzar-bloque {
+  margin-top: 8px;
+}
+
+#control-sortear:disabled,
+#control-avanzar-bloque:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-config hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--border-color, #dbe2ea);
+}
+
+@media (max-width: 700px) {
+  .programacion-resumen {
+    grid-template-columns: 1fr;
+  }
+}
