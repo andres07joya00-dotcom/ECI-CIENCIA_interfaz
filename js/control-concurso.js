@@ -841,6 +841,13 @@
   }
 
   function conectarEventos() {
+    $("control-excel").addEventListener("change", () => {
+      const archivo = $("control-excel").files[0];
+      if (archivo) {
+        mensaje(`Archivo seleccionado: ${archivo.name}. Pulsa «Importar programación» para procesarlo.`);
+      }
+    });
+
     $("control-importar").addEventListener("click", importarProgramacion);
     $("control-sortear").addEventListener("click", sortearPregunta);
     $("control-avanzar-bloque").addEventListener("click", avanzarBloque);
@@ -930,5 +937,11 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", iniciar);
+  // El HTML se carga dinámicamente. DOMContentLoaded puede haber ocurrido
+  // antes de que este archivo se ejecute; en ese caso, iniciar de inmediato.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", iniciar, { once: true });
+  } else {
+    iniciar();
+  }
 })();

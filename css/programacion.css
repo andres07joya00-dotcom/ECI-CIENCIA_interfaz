@@ -1,0 +1,72 @@
+/* PROGRAMACIÓN AUTOMÁTICA */
+
+/* =========================================
+   PROGRAMACIÓN AUTOMÁTICA - COPA INGENIUM
+========================================= */
+
+.programacion-resumen {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.programacion-resumen > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px;
+  border: 1px solid var(--border-color, #dbe2ea);
+  border-radius: 12px;
+  background: var(--card-bg, #f8fafc);
+}
+
+.programacion-resumen strong {
+  font-size: 1.5rem;
+}
+
+.programacion-criterios {
+  margin: 8px 0 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--card-bg, #f8fafc);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+#control-fase-actual,
+#control-enfrentamiento-actual {
+  display: block;
+  margin: 6px 0 14px;
+}
+
+#control-excel {
+  width: 100%;
+  max-width: 100%;
+  margin: 8px 0 12px;
+}
+
+#control-importar,
+#control-sortear,
+#control-avanzar-bloque {
+  margin-top: 8px;
+}
+
+#control-sortear:disabled,
+#control-avanzar-bloque:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.control-config hr {
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--border-color, #dbe2ea);
+}
+
+@media (max-width: 700px) {
+  .programacion-resumen {
+    grid-template-columns: 1fr;
+  }
+}
+

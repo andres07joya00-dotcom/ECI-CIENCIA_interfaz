@@ -1,0 +1,58 @@
+/* ANIMACIONES, INTERACCIONES Y SCROLLBAR */
+
+/* Animación suave para la transición de pantallas */
+.fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efectos de elevación para elementos interactivos */
+.stat-card, 
+.panel-card, 
+.quick-link,
+.contest-option {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.stat-card:hover, 
+.panel-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px #101a3312;
+}
+
+.quick-link:hover {
+  background: #fcfdff;
+}
+
+.quick-link:hover .quick-icon {
+  background: var(--purple);
+  color: white;
+}
+
+.quick-link:hover .arrow {
+  transform: translateX(4px);
+  transition: transform 0.2s ease;
+}
+
+/* Scrollbar estilo aplicación de escritorio */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

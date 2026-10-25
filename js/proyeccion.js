@@ -1,8 +1,4 @@
 
-/* =========================================
-   PROYECCIÓN DE CONCURSANTES
-========================================= */
-
 (() => {
   const STATE_KEY = "copaIngeniumEstadoControl";
   const CHANNEL_NAME = "copaIngeniumConcurso";

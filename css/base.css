@@ -1,0 +1,46 @@
+/* ESTILOS BASE Y VARIABLES */
+
+
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #17233f;
+  background: #f4f6fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --ink: #17233f;
+  --muted: #7b879e;
+  --line: #e8ebf3;
+  --purple: #7160df;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #a79bff;
+  outline-offset: 3px;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
