@@ -1,11 +1,29 @@
 <section class="page-section hidden" id="page-marcador">
-        <div class="module-card">
-          <span class="module-symbol">▥</span>
-          <h2>Marcador</h2>
-          <p>
-            Aquí mostraremos los puntos de cada equipo, los resultados
-            de los enfrentamientos y la clasificación.
-          </p>
-          <span class="coming-soon">Módulo en desarrollo</span>
-        </div>
-      </section>
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">COPA INGENIUM · RESULTADOS OFICIALES</span>
+      <h1>Marcador y resultados</h1>
+      <p>Consulta los resultados validados y el avance de la llave. Los resultados oficiales se confirman en Enfrentamientos.</p>
+    </div>
+    <span class="status-pill" id="scoreboard-status">En preparación</span>
+  </div>
+
+  <div class="stats-grid scoreboard-stats">
+    <article class="stat-card"><span>Equipos</span><strong id="scoreboard-teams">0</strong><small>Registrados</small></article>
+    <article class="stat-card"><span>Partidos validados</span><strong id="scoreboard-approved">0</strong><small>Resultados confirmados</small></article>
+    <article class="stat-card"><span>Pendientes</span><strong id="scoreboard-pending">0</strong><small>Con llave generada</small></article>
+    <article class="stat-card"><span>Campeón</span><strong id="scoreboard-champion">—</strong><small id="scoreboard-runnerup">Aún por definir</small></article>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><h2>Resumen de enfrentamientos</h2><span>ACTA</span></div>
+    <p class="muted">Los resultados no validados no se consideran oficiales. Para corregir un acta, usa el módulo Enfrentamientos y sigue el procedimiento del evento.</p>
+    <div id="scoreboard-results" class="scoreboard-results">
+      <div class="empty-state"><strong>Aún no hay resultados</strong><p>Importa los equipos y genera la llave para comenzar.</p></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title"><h2>Registro de cambios</h2><span>INFO</span></div>
+    <p id="scoreboard-updated" class="muted">No hay datos de torneo guardados.</p>
+  </div>
+</section>

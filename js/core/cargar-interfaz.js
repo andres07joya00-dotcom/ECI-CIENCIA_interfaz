@@ -53,6 +53,9 @@ async function iniciarInterfaz() {
     "js/preguntas/importar-excel.js",
     "js/enfrentamientos.js",
     "js/control-concurso.js",
+    "js/core/panel-principal.js",
+    "js/core/respaldo.js",
+    "js/marcador.js",
     "js/app.js"
   ];
 

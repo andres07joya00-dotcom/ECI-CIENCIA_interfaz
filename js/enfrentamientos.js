@@ -28,6 +28,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       renderizar();
+      window.dispatchEvent(new Event("copaIngenium:actualizar"));
     } catch (error) {
       alert("No se pudieron guardar los datos: " + error.message);
     }
@@ -628,47 +629,10 @@
   }
 
 
+  // La navegación global se gestiona desde js/core/navegacion.js.
+  // Este módulo solo escucha las acciones propias de los enfrentamientos.
   document.addEventListener("click", event => {
-    const botonPagina = event.target.closest("[data-page]");
-
-    if (botonPagina) {
-      const pagina = botonPagina.dataset.page;
-
-      document.querySelectorAll(".page-section").forEach(seccion => {
-        seccion.classList.add("hidden");
-      });
-
-      document.querySelectorAll("[data-page]").forEach(boton => {
-        boton.classList.remove("active");
-      });
-
-      $(`page-${pagina}`)?.classList.remove("hidden");
-
-      document.querySelectorAll(`[data-page="${pagina}"]`).forEach(boton => {
-        boton.classList.add("active");
-      });
-
-      const titulos = {
-        inicio: "Panel principal",
-        preguntas: "Banco de preguntas",
-        enfrentamientos: "Enfrentamientos",
-        concurso: "Control del concurso",
-        marcador: "Marcador",
-        configuracion: "Configuración"
-      };
-
-      if ($("page-title")) {
-        $("page-title").textContent =
-          titulos[pagina] || "Copa Ingenium";
-      }
-
-      return;
-    }
-
-    const botonValidar = event.target.closest(
-      "[data-validar-enfrentamiento]"
-    );
-
+    const botonValidar = event.target.closest("[data-validar-enfrentamiento]");
     if (botonValidar) {
       validarResultado(botonValidar.dataset.validarEnfrentamiento);
     }

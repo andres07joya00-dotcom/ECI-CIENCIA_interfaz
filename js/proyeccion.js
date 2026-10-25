@@ -136,11 +136,14 @@
     const nuevoEstado = leerEstado();
     const nuevaVersion = nuevoEstado.updatedAt || null;
 
-    if (nuevaVersion !== ultimaVersion) {
+    if (nuevaVersion !== ultimaVersion || ultimaVersion === null) {
       estado = nuevoEstado;
       ultimaVersion = nuevaVersion;
 
-      if (estado.published && estado.question) {
+      const publicada = Boolean(estado.published && estado.question);
+      $("proy-tarjeta").hidden = !publicada;
+      $("proy-espera").hidden = publicada;
+      if (publicada) {
         renderizarPregunta();
       } else {
         $("proy-estado").textContent = "ESPERANDO AL MODERADOR";
@@ -170,11 +173,11 @@
     canal.addEventListener("message", evento => {
       estado = evento.data || {};
       ultimaVersion = estado.updatedAt || null;
-
-      if (estado.published && estado.question) {
-        renderizarPregunta();
-      }
-
+      const publicada = Boolean(estado.published && estado.question);
+      $("proy-tarjeta").hidden = !publicada;
+      $("proy-espera").hidden = publicada;
+      if (publicada) renderizarPregunta();
+      else $("proy-estado").textContent = "ESPERANDO AL MODERADOR";
       actualizar();
     });
   }

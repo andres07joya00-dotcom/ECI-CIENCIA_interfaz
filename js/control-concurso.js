@@ -6,6 +6,7 @@
   const STATE_KEY = "copaIngeniumEstadoControl";
   const PROGRAM_KEY = "copaIngeniumProgramacion";
   const USED_KEY = "copaIngeniumPreguntasUsadas";
+  const PROGRESS_KEY = "copaIngeniumProgresoProgramacion";
   const CHANNEL_NAME = "copaIngeniumConcurso";
 
   const $ = id => document.getElementById(id);
@@ -96,12 +97,17 @@
   }
 
   function guardarEstado(notificar = false) {
-    localStorage.setItem(STATE_KEY, JSON.stringify(estado));
-
-    if (notificar && canal) {
-      canal.postMessage(estado);
+    estado.updatedAt = Math.max(Date.now(), (Number(estado.updatedAt) || 0) + 1);
+    try {
+      localStorage.setItem(STATE_KEY, JSON.stringify(estado));
+    } catch (error) {
+      mensaje("No se pudo guardar el estado del concurso. Descarga un respaldo y libera espacio en el navegador.", true);
+      console.error("Error guardando el estado del concurso:", error);
+      return;
     }
 
+    if (notificar && canal) canal.postMessage(estado);
+    window.dispatchEvent(new Event("copaIngenium:actualizar"));
     actualizarCronometro();
   }
 
@@ -297,6 +303,20 @@
     return resultado;
   }
 
+  function guardarProgreso() {
+    const progreso = {
+      indiceBloque,
+      contadorBloque,
+      updatedAt: Date.now()
+    };
+    try {
+      localStorage.setItem(PROGRESS_KEY, JSON.stringify(progreso));
+    } catch (error) {
+      console.error("No se pudo guardar el progreso de la programación.", error);
+      mensaje("No se pudo guardar el progreso. Exporta un respaldo antes de continuar.", true);
+    }
+  }
+
   function cantidadPendiente() {
     return programa.reduce((total, bloque, indice) => {
       if (indice < indiceBloque) return total;
@@ -374,9 +394,8 @@
       return;
     }
 
-    if (!preguntas.length) {
-      preguntas = cargarBanco();
-    }
+    // Recarga siempre el banco para validar contra los datos más recientes.
+    preguntas = cargarBanco();
 
     if (!preguntas.length) {
       mensaje(
@@ -479,6 +498,7 @@
 
       localStorage.setItem(PROGRAM_KEY, JSON.stringify(programa));
       localStorage.setItem(USED_KEY, JSON.stringify([]));
+      guardarProgreso();
 
       detenerTemporizador();
 
@@ -509,6 +529,14 @@
 
   function sortearPregunta() {
     const bloque = programa[indiceBloque];
+
+    if (preguntaActual && (estado.status === "running" || estado.published) && !estado.revealed) {
+      const continuar = confirm(
+        "La pregunta actual todavía está activa o no se ha revelado la respuesta. " +
+        "Si sorteas otra, esta pregunta quedará atrás. ¿Continuar?"
+      );
+      if (!continuar) return;
+    }
 
     if (!bloque) {
       mensaje("La programación ya terminó.", true);
@@ -546,6 +574,7 @@
     contadorBloque++;
 
     localStorage.setItem(USED_KEY, JSON.stringify([...usadas]));
+    guardarProgreso();
 
     detenerTemporizador();
 
@@ -581,6 +610,10 @@
       return;
     }
 
+    if (preguntaActual && (estado.status === "running" || estado.published) && !estado.revealed) {
+      if (!confirm("La pregunta actual todavía no tiene respuesta revelada. ¿Quieres cerrar esta pregunta y avanzar de ronda?")) return;
+    }
+
     if (indiceBloque >= programa.length - 1) {
       mensaje("Ya completaste todos los bloques de la programación.");
       actualizarResumen();
@@ -590,6 +623,7 @@
     indiceBloque++;
     contadorBloque = 0;
     preguntaActual = null;
+    guardarProgreso();
 
     detenerTemporizador();
     limpiarVistaPrevia();
@@ -784,6 +818,10 @@
     }
 
     if (estado.status === "running") return;
+    if (estado.status === "finished") {
+      mensaje("El tiempo terminó. Pulsa «Reiniciar tiempo» antes de iniciar otro conteo.", true);
+      return;
+    }
 
     const restante = tiempoRestante();
 
@@ -899,18 +937,22 @@
     if (!Array.isArray(programa)) programa = [];
 
     if (programa.length) {
-      // Recupera el bloque pendiente sin volver a sortear preguntas usadas.
-      indiceBloque = 0;
-      contadorBloque = 0;
+      // Recupera el progreso exacto para que recargar la página no reinicie la ronda.
+      const progreso = leerJSON(PROGRESS_KEY, null);
+      if (progreso && Number.isInteger(progreso.indiceBloque) &&
+          Number.isInteger(progreso.contadorBloque)) {
+        indiceBloque = Math.min(Math.max(0, progreso.indiceBloque), programa.length);
+        contadorBloque = Math.max(0, progreso.contadorBloque);
+      } else {
+        indiceBloque = 0;
+        contadorBloque = 0;
+      }
 
-      // La versión inicial restaura el banco de preguntas ya utilizadas,
-      // pero inicia el progreso del bloque desde cero si se recarga la página.
-      // Las preguntas utilizadas siguen excluidas del sorteo.
       const bloque = programa[indiceBloque];
-
       if (bloque) {
+        contadorBloque = Math.min(contadorBloque, bloque.cantidad);
         estado.seconds = bloque.tiempo;
-        estado.remainingMs = bloque.tiempo * 1000;
+        if (!estado.question) estado.remainingMs = bloque.tiempo * 1000;
       }
     }
 

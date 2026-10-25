@@ -1,11 +1,50 @@
 <section class="page-section hidden" id="page-configuracion">
-        <div class="module-card">
-          <span class="module-symbol">⚙</span>
-          <h2>Configuración</h2>
-          <p>
-            Aquí configuraremos los parámetros generales del concurso
-            y, posteriormente, la comunicación con los dispositivos.
-          </p>
-          <span class="coming-soon">Módulo en desarrollo</span>
-        </div>
-      </section>
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">COPA INGENIUM · OPERACIÓN SEGURA</span>
+      <h1>Configuración y respaldo</h1>
+      <p>Prepara el evento, protege los datos y verifica el equipo antes de iniciar.</p>
+    </div>
+    <span class="status-pill">Datos locales</span>
+  </div>
+
+  <div class="notice notice-warning">
+    <strong>Importante antes del concurso</strong>
+    <p>Esta versión guarda información en el navegador y en el equipo donde se ejecuta. No hay sincronización automática entre computadores. Descarga un respaldo antes del evento y cada vez que haya cambios importantes.</p>
+  </div>
+
+  <div class="settings-grid">
+    <article class="panel">
+      <div class="panel-title"><h2>1. Respaldo completo</h2><span>JSON</span></div>
+      <p class="muted">Guarda banco de preguntas, programación, progreso, estado de la pregunta y llave/resultados del torneo en un archivo que puedes restaurar después.</p>
+      <div class="settings-actions">
+        <button type="button" id="backup-export" class="primary-button">Descargar respaldo</button>
+        <label class="file-picker-label" for="backup-import-file">Seleccionar respaldo para restaurar</label>
+        <input type="file" id="backup-import-file" accept=".json,application/json">
+        <button type="button" id="backup-import" class="secondary-btn">Validar y restaurar</button>
+      </div>
+      <p id="backup-message" role="status" aria-live="polite" class="muted">Se recomienda guardar una copia fuera de este computador.</p>
+    </article>
+
+    <article class="panel">
+      <div class="panel-title"><h2>2. Lista de comprobación</h2><span>PREVIO</span></div>
+      <label class="checklist-item"><input type="checkbox" data-checklist="bank"> Banco de preguntas cargado y revisado.</label>
+      <label class="checklist-item"><input type="checkbox" data-checklist="program"> Programación importada y validada.</label>
+      <label class="checklist-item"><input type="checkbox" data-checklist="teams"> Ocho equipos y nombres verificados.</label>
+      <label class="checklist-item"><input type="checkbox" data-checklist="draw"> Sorteo de la llave realizado y comunicado.</label>
+      <label class="checklist-item"><input type="checkbox" data-checklist="projection"> Pantalla de proyección probada.</label>
+      <label class="checklist-item"><input type="checkbox" data-checklist="backup"> Respaldo descargado y comprobado.</label>
+      <p class="muted">La lista se guarda en este navegador. Marca cada paso solo después de comprobarlo.</p>
+    </article>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><h2>3. Recomendaciones de operación</h2><span>GUÍA</span></div>
+    <div class="operating-guide">
+      <div><strong>Moderador</strong><p>Usa un único computador para controlar el concurso y no recargues la página durante una pregunta activa salvo que sea necesario.</p></div>
+      <div><strong>Proyección</strong><p>Abre la pantalla de concursantes en una ventana aparte y arrástrala al proyector. Comprueba que no se vea el panel de administración.</p></div>
+      <div><strong>Antes de comenzar</strong><p>Haz una prueba completa: importar, sortear, publicar, iniciar/pausar cronómetro y revelar la respuesta.</p></div>
+      <div><strong>Limitación actual</strong><p>El marcador de equipos registra resultados por enfrentamiento; el puntaje por pregunta y la integración física con ESP32 requieren implementación adicional.</p></div>
+    </div>
+  </div>
+</section>

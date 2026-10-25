@@ -29,7 +29,7 @@
             <p>Resumen general de la plataforma</p>
           </div>
 
-          <span class="status-pill">En preparación</span>
+          <span class="status-pill" id="dashboard-status">En preparación</span>
         </div>
 
         <div class="stats-grid">
@@ -37,21 +37,21 @@
             <span class="stat-icon purple">▤</span>
             <p>Preguntas cargadas</p>
             <strong id="question-count">0</strong>
-            <small>Banco pendiente de importar</small>
+            <small id="dashboard-question-note">Banco pendiente de importar</small>
           </article>
 
           <article class="stat-card">
             <span class="stat-icon blue">⚑</span>
             <p>Enfrentamientos</p>
-            <strong id="match-count">0</strong>
-            <small>Sin configurar</small>
+            <strong id="dashboard-match-count">0</strong>
+            <small>Resultados validados</small>
           </article>
 
           <article class="stat-card">
             <span class="stat-icon orange">◷</span>
             <p>Pregunta activa</p>
             <strong id="active-question">—</strong>
-            <small>Concurso sin iniciar</small>
+            <small id="dashboard-question-note-active">Concurso sin iniciar</small>
           </article>
 
           <article class="stat-card">
@@ -122,29 +122,29 @@
               <span>02</span>
             </div>
 
-            <p class="muted">Etapas de desarrollo</p>
+            <p class="muted">Lista de preparación</p>
 
             <div class="check-row">
               <span class="check complete">✓</span>
-              <span>Crear interfaz base</span>
-              <small>Actual</small>
+              <span>Interfaz y navegación</span>
+              <small>Disponible</small>
             </div>
 
             <div class="check-row">
               <span class="check pending">2</span>
-              <span>Importar Excel</span>
-              <small>Pendiente</small>
+              <span>Cargar y validar datos</span>
+              <small>Antes del evento</small>
             </div>
 
             <div class="check-row">
               <span class="check pending">3</span>
-              <span>Crear servidor</span>
-              <small>Pendiente</small>
+              <span>Respaldar la información</span>
+              <small>Recomendado</small>
             </div>
 
             <div class="check-row">
               <span class="check pending">4</span>
-              <span>Conectar ESP32</span>
+              <span>Probar proyección y cronómetro</span>
               <small>Fase posterior</small>
             </div>
           </article>
