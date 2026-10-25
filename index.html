@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <script src="js/app.js" defer></script>
+  <script src="js/enfrentamientos.js" defer></script>
 </head>
 
 <body>
@@ -144,6 +145,19 @@
             <p>Conexión ESP32</p>
             <strong class="small-value">Pendiente</strong>
             <small>Se integrará posteriormente</small>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon blue">⚑</span>
+            <p>Equipos registrados</p>
+            <strong id="dashboard-team-count">0/8</strong>
+            <small>Equipos importados desde Excel</small>
+          </article>
+
+          <article class="stat-card">
+            <span class="stat-icon orange">◷</span>
+            <p>Próximo enfrentamiento</p>
+            <strong id="dashboard-next">Por configurar</strong>
+            <small>Según el estado de la llave</small>
           </article>
         </div>
 
@@ -416,15 +430,42 @@
       </section>
 
       <section class="page-section hidden" id="page-enfrentamientos">
-        <div class="module-card">
-          <span class="module-symbol">⚑</span>
-          <h2>Enfrentamientos</h2>
-          <p>
-            Aquí registraremos los equipos, las rondas y la asignación
-            de preguntas a cada enfrentamiento.
-          </p>
-          <span class="coming-soon">Módulo en desarrollo</span>
+        <div class="page-header">
+          <div>
+            <span class="eyebrow">COPA INGENIUM · REGLAMENTO V2</span>
+            <h1>Enfrentamientos</h1>
+            <p>Llave de eliminación directa con confirmación obligatoria del moderador.</p>
+          </div>
+          <span class="status-pill" id="estado-torneo">En preparación</span>
         </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><p>Equipos cargados</p><strong id="team-count">0/8</strong><small>Importación desde Excel</small></article>
+          <article class="stat-card"><p>Enfrentamientos validados</p><strong id="match-count">0</strong><small>Resultados confirmados</small></article>
+          <article class="stat-card"><p>Próximo enfrentamiento</p><strong id="dashboard-next">Importar equipos</strong><small>Se habilita al definir los equipos</small></article>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><h2>1. Cargar equipos desde Excel</h2><span>01</span></div>
+          <p class="muted">La primera hoja debe tener una columna <strong>Equipo</strong> o <strong>Nombre</strong>. Opcionalmente puede incluir <strong>Capitán</strong> o <strong>Vocero</strong>. El reglamento v2 contempla ocho equipos.</p>
+          <div class="form-grid">
+            <div><label for="archivo-equipos">Archivo .xlsx o .xls</label><input id="archivo-equipos" type="file" accept=".xlsx,.xls"></div>
+            <div class="form-actions"><button type="button" id="importar-equipos" class="primary-button">Validar e importar Excel</button></div>
+          </div>
+          <p id="mensaje-equipos" role="status" aria-live="polite"></p>
+          <div id="lista-equipos"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title"><h2>2. Sorteo y llave</h2><span>02</span></div>
+          <p class="muted">El sorteo define los cuatro cruces de cuartos. La llave no debe modificarse después de publicada, salvo las excepciones del reglamento.</p>
+          <div class="form-actions">
+            <button type="button" id="generar-llave" class="primary-button">Generar sorteo público y llave</button>
+            <button type="button" id="reiniciar-torneo" class="secondary-btn">Reiniciar torneo</button>
+          </div>
+          <div id="llave-enfrentamientos"></div>
+        </div>
+        <p class="muted">Nota: esta primera versión guarda datos en este navegador. Antes del evento, exporta o respalda las actas; la sincronización multiusuario/Supabase y los botones ESP32 se integrarán después.</p>
       </section>
 
       <section class="page-section hidden" id="page-concurso">
