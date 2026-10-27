@@ -44,6 +44,11 @@ async function iniciarInterfaz() {
   document.getElementById("pages-container").innerHTML = paginas.join("\n");
   document.getElementById("footer-container").innerHTML = footer;
 
+  // Conecta Supabase y carga los datos remotos ANTES de inicializar módulos
+  // que leen localStorage de forma síncrona. Si falla la conexión, no inicia
+  // la aplicación para evitar trabajar por error sobre datos desactualizados.
+  await window.copaIngeniumIniciarSupabase();
+
   // El orden es importante: dependencias compartidas y navegación primero;
   // después preguntas, enfrentamientos, control del concurso y finalmente app.
   const scripts = [
