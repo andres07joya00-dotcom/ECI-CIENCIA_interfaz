@@ -350,6 +350,7 @@
       $("control-progreso").textContent = "0 / 0 preguntas";
       $("control-sortear").disabled = true;
       $("control-avanzar-bloque").disabled = true;
+      if ($("control-eliminar-programacion")) $("control-eliminar-programacion").disabled = programa.length === 0;
       return;
     }
 
@@ -373,12 +374,61 @@
     $("control-avanzar-bloque").disabled =
       contadorBloque < bloque.cantidad ||
       indiceBloque >= programa.length - 1;
+    if ($("control-eliminar-programacion")) $("control-eliminar-programacion").disabled = false;
   }
 
   function mensaje(texto, error = false) {
     const elemento = $("control-mensaje");
     elemento.textContent = texto;
     elemento.style.color = error ? "#dc2626" : "";
+  }
+
+  function eliminarProgramacion() {
+    if (!programa.length) {
+      mensaje("No hay una programación cargada para eliminar.", true);
+      return;
+    }
+
+    const confirmado = confirm(
+      "¿Eliminar la programación actual?\n\n" +
+      "Se borrarán la programación, su progreso y la lista de preguntas ya utilizadas. " +
+      "La pregunta activa se quitará de la proyección. El banco de preguntas no se borra. " +
+      "El cambio se sincronizará con los demás equipos conectados."
+    );
+    if (!confirmado) return;
+
+    detenerTemporizador();
+    programa = [];
+    indiceBloque = 0;
+    contadorBloque = 0;
+    preguntaActual = null;
+    usadas = new Set();
+
+    localStorage.removeItem(PROGRAM_KEY);
+    localStorage.removeItem(USED_KEY);
+    localStorage.removeItem(PROGRESS_KEY);
+
+    estado = {
+      question: null,
+      published: false,
+      revealed: false,
+      seconds: 20,
+      remainingMs: 20000,
+      deadline: null,
+      status: "idle",
+      fase: "",
+      enfrentamiento: "",
+      updatedAt: Date.now()
+    };
+    guardarEstado(true);
+
+    $("control-excel").value = "";
+    limpiarVistaPrevia();
+    actualizarResumen();
+    $("estado-control").textContent = "Sin programación";
+    mensaje("Programación eliminada. Ya puedes importar un archivo nuevo; el banco de preguntas permanece intacto.");
+    const contingenciaMensaje = $("control-contingencia-mensaje");
+    if (contingenciaMensaje) contingenciaMensaje.textContent = "La programación está vacía. Puedes sortear preguntas de desempate o reserva cuando las necesites.";
   }
 
   async function importarProgramacion() {
@@ -602,6 +652,58 @@
     );
   }
 
+  function sortearPreguntaContingencia(tipo) {
+    if (!["desempate", "reserva"].includes(tipo)) return;
+
+    if (preguntaActual && (estado.status === "running" || estado.published) && !estado.revealed) {
+      const continuar = confirm(
+        "La pregunta actual sigue activa o no se ha revelado. Si sorteas otra, dejará de ser la pregunta actual. ¿Continuar?"
+      );
+      if (!continuar) return;
+    }
+
+    preguntas = cargarBanco();
+    const disponibles = preguntas.filter(p =>
+      normalizarTipo(p.tipo) === tipo && !usadas.has(String(p.id))
+    );
+
+    if (!disponibles.length) {
+      const tipoTexto = TIPOS[tipo].toLowerCase();
+      const estadoMensaje = $("control-contingencia-mensaje");
+      if (estadoMensaje) estadoMensaje.textContent = `No quedan preguntas de ${tipoTexto} sin utilizar. Revisa el banco o restablece la programación si estás iniciando una nueva competencia.`;
+      mensaje(`No hay preguntas de ${TIPOS[tipo].toLowerCase()} disponibles sin repetir.`, true);
+      return;
+    }
+
+    const elegida = disponibles[Math.floor(Math.random() * disponibles.length)];
+    preguntaActual = elegida;
+    usadas.add(String(elegida.id));
+    localStorage.setItem(USED_KEY, JSON.stringify([...usadas]));
+
+    detenerTemporizador();
+    estado = {
+      question: elegida,
+      published: false,
+      revealed: false,
+      seconds: 20,
+      remainingMs: 20000,
+      deadline: null,
+      status: "idle",
+      fase: tipo === "desempate" ? "Desempate" : "Reserva",
+      enfrentamiento: "Pregunta de contingencia",
+      updatedAt: Date.now()
+    };
+
+    renderizarVistaPrevia(elegida);
+    guardarEstado(true);
+    actualizarResumen();
+    $("estado-control").textContent = tipo === "desempate" ? "Desempate sorteado" : "Reserva sorteada";
+
+    const estadoMensaje = $("control-contingencia-mensaje");
+    if (estadoMensaje) estadoMensaje.textContent = `${TIPOS[tipo]} sorteada. Publícala cuando estés listo; la respuesta seguirá oculta hasta revelarla.`;
+    mensaje(`${TIPOS[tipo]} sorteada correctamente. No se modificó el progreso de la programación.`);
+  }
+
   function avanzarBloque() {
     const bloque = programa[indiceBloque];
 
@@ -675,7 +777,7 @@
       `${PUNTOS[dificultad] || 0} puntos`;
 
     const bloque = programa[indiceBloque];
-    const segundos = bloque ? bloque.tiempo : 20;
+    const segundos = Number(estado.seconds) || (bloque ? bloque.tiempo : 20);
 
     $("control-tiempo-preview").textContent = `${segundos} segundos`;
     $("control-numero").textContent = String(usadas.size);
@@ -759,7 +861,7 @@
   }
 
   function segundosConfigurados() {
-    return programa[indiceBloque]?.tiempo || 20;
+    return Number(estado.seconds) || programa[indiceBloque]?.tiempo || 20;
   }
 
   function formatoTiempo(ms) {
@@ -862,6 +964,10 @@
   function siguientePregunta() {
     // Conserva el botón visible: el sorteo real lo controla la programación.
     if (!preguntaActual) {
+      if (!programa.length) {
+        mensaje("No hay una programación activa. Importa una programación o utiliza los botones de desempate y reserva.", true);
+        return;
+      }
       sortearPregunta();
       return;
     }
@@ -874,7 +980,9 @@
     }
 
     mensaje(
-      "Completaste las preguntas de este bloque. Usa «Siguiente ronda» para avanzar."
+      programa.length
+        ? "Completaste las preguntas de este bloque. Usa «Siguiente ronda» para avanzar."
+        : "No hay programación activa. Puedes sortear una pregunta de desempate o reserva."
     );
   }
 
@@ -887,6 +995,9 @@
     });
 
     $("control-importar").addEventListener("click", importarProgramacion);
+    $("control-eliminar-programacion")?.addEventListener("click", eliminarProgramacion);
+    $("control-sortear-desempate")?.addEventListener("click", () => sortearPreguntaContingencia("desempate"));
+    $("control-sortear-reserva")?.addEventListener("click", () => sortearPreguntaContingencia("reserva"));
     $("control-sortear").addEventListener("click", sortearPregunta);
     $("control-avanzar-bloque").addEventListener("click", avanzarBloque);
 
@@ -899,6 +1010,26 @@
     $("control-siguiente").addEventListener("click", siguientePregunta);
 
     window.addEventListener("storage", evento => {
+      if (evento.key === PROGRAM_KEY) {
+        programa = leerJSON(PROGRAM_KEY, []);
+        if (!Array.isArray(programa)) programa = [];
+        const progreso = leerJSON(PROGRESS_KEY, null);
+        indiceBloque = programa.length && progreso && Number.isInteger(progreso.indiceBloque)
+          ? Math.min(Math.max(0, progreso.indiceBloque), programa.length) : 0;
+        contadorBloque = programa.length && progreso && Number.isInteger(progreso.contadorBloque)
+          ? Math.max(0, progreso.contadorBloque) : 0;
+        actualizarResumen();
+      }
+
+      if (evento.key === PROGRESS_KEY) {
+        const progreso = leerJSON(PROGRESS_KEY, null);
+        indiceBloque = programa.length && progreso && Number.isInteger(progreso.indiceBloque)
+          ? Math.min(Math.max(0, progreso.indiceBloque), programa.length) : 0;
+        contadorBloque = programa.length && progreso && Number.isInteger(progreso.contadorBloque)
+          ? Math.max(0, progreso.contadorBloque) : 0;
+        actualizarResumen();
+      }
+
       if (evento.key === BANK_KEY) {
         preguntas = cargarBanco();
         actualizarResumen();
@@ -951,8 +1082,11 @@
       const bloque = programa[indiceBloque];
       if (bloque) {
         contadorBloque = Math.min(contadorBloque, bloque.cantidad);
-        estado.seconds = bloque.tiempo;
-        if (!estado.question) estado.remainingMs = bloque.tiempo * 1000;
+        const esContingencia = ["Desempate", "Reserva"].includes(estado.fase);
+        if (!esContingencia) {
+          estado.seconds = bloque.tiempo;
+          if (!estado.question) estado.remainingMs = bloque.tiempo * 1000;
+        }
       }
     }
 
@@ -973,6 +1107,9 @@
 
     actualizarResumen();
     actualizarCronometro();
+    if ($("control-contingencia-mensaje") && !programa.length) {
+      $("control-contingencia-mensaje").textContent = "Puedes sortear una pregunta de desempate o reserva sin cargar una programación. Las preguntas deben estar clasificadas con ese tipo en el banco.";
+    }
 
     if (estado.status === "running" && estado.deadline) {
       temporizador = setInterval(actualizarCronometro, 200);

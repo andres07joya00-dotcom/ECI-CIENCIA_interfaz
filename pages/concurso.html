@@ -43,9 +43,16 @@
               accept=".xlsx,.xls"
             >
 
-            <button type="button" id="control-importar" class="primary-button">
-              Importar programación
-            </button>
+            <div class="control-programacion-buttons">
+              <button type="button" id="control-importar" class="primary-button">
+                Importar programación
+              </button>
+              <button type="button" id="control-eliminar-programacion" class="secondary-btn" disabled>
+                Eliminar programación actual
+              </button>
+            </div>
+
+            <p class="muted control-help">Puedes eliminar la programación al terminar o antes de cargar un archivo nuevo. Esto no borra el banco de preguntas.</p>
 
             <div class="programacion-resumen">
               <div>
@@ -144,6 +151,22 @@
             <p class="muted">La respuesta correcta no aparecerá en la proyección hasta que la reveles.</p>
           </article>
         </div>
+
+        <section class="panel control-contingencias" aria-labelledby="contingencias-title">
+          <div class="control-contingencias-header">
+            <div>
+              <span class="eyebrow">PREGUNTAS ADICIONALES</span>
+              <h2 id="contingencias-title">05. Desempate y reserva</h2>
+              <p class="muted">Estas preguntas se sortean solo cuando las necesites. No avanzan ni modifican el contador de la programación ordinaria.</p>
+            </div>
+            <span class="contingencia-note">Sorteo bajo demanda</span>
+          </div>
+          <div class="control-actions">
+            <button type="button" id="control-sortear-desempate" class="action-button">Sortear pregunta de desempate</button>
+            <button type="button" id="control-sortear-reserva" class="secondary-btn">Sortear pregunta de reserva</button>
+          </div>
+          <p id="control-contingencia-mensaje" class="muted" role="status" aria-live="polite">Las preguntas deben estar clasificadas como “Desempate rápido” o “Reserva” en el banco de preguntas.</p>
+        </section>
 
         <div class="panel timer-panel">
           <div>
